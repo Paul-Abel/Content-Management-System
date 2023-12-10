@@ -17,4 +17,6 @@
     flex-wrap: nowrap !important;
 }
 
-
+.ui-datatable .ui-selection-column .ui-chkbox-all {
+    display: unset !important;
+}

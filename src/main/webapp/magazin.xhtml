@@ -13,22 +13,27 @@
                 <p:growl id="messages" showDetail="true"/>
 
                 <p:toolbar>
-                    <f:facet name="left">
-                        <p:commandButton type="button" id="add-magazine-button" value="Neu" icon="pi pi-plus"
+                    <p:toolbarGroup>
+                        <p:commandButton id="add-magazine-button" value="Neu" icon="pi pi-plus"
                                          actionListener="#{magazineBean.addMagazine()}"
-                                         styleClass="ui-button-success" style="margin-right: .5rem"
+                                         styleClass="ui-button-success" style="margin-right: .5rem; width: 180px"
                                          update="allMagazineList"/>
 
-                        <p:commandButton type="button" id="delete-magazine-button" value="Löschen" icon="pi pi-trash"
+                        <p:commandButton id="delete-magazine-button" value="#{magazineBean.deleteButtonMessage}"
+                                         icon="pi pi-trash"
                                          actionListener="#{magazineBean.deleteMagazines()}"
-                                         styleClass="ui-button-danger" update="@this"/>
-                    </f:facet>
+                                         styleClass="ui-button-danger" style="width: 180px" update="@this"
+                                         disabled="#{!magazineBean.hasSelectedMagazines()}">
+                            <p:confirm header="Confirmation" message="Sicher das Sie diese Magazine löschen wollen?"
+                                       icon="pi pi-exclamation-triangle"/>
+                        </p:commandButton>
+                    </p:toolbarGroup>
                 </p:toolbar>
 
 
                 <p:dataTable id="allMagazineList" var="magazine" value="#{magazineBean.allMagazines}"
-                             selection="#{magazineBean.selectedMagazines}"
-                             rowKey="#{magazineBean.id}" paginator="true" rows="15" rowSelectMode="add"
+                             selection="#{magazineBean.selectedMagazines}"  styleClass="products-table" reflow="true"
+                             rowKey="#{magazine.id}" paginator="true" rows="15" rowSelectMode="add"
                              paginatorPosition="bottom">
 
                     <p:ajax event="rowSelect" update=":form:delete-magazine-button"/>
@@ -37,7 +42,7 @@
                     <p:ajax event="rowUnselectCheckbox" update=":form:delete-magazine-button"/>
                     <p:ajax event="toggleSelect" update=":form:delete-magazine-button"/>
 
-                    <p:column selectionMode="multiple" exportable="false"/>
+                    <p:column selectionMode="multiple" exportable="false" align="center"/>
 
                     <p:column headerText="ID">
                         <h:outputText value="#{magazine.id}"/>
@@ -52,6 +57,12 @@
                     </p:column>
 
                 </p:dataTable>
+
+                <p:confirmDialog global="true" showEffect="fade" width="300">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                                     icon="pi pi-times"/>
+                </p:confirmDialog>
 
             </h:form>
         </div>
