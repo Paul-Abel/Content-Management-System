@@ -9,6 +9,7 @@ public class Magazine {
     @Id
     @GeneratedValue
     private Long id;
+
     private String title;
     private String description;
 

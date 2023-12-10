@@ -11,6 +11,10 @@
     height: auto !important;
 }
 
-.center {
-    text-align: center;
+.ui-toolbar-group-left, .ui-toolbar-group-right {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap !important;
 }
+
+
