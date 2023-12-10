@@ -24,10 +24,10 @@ public class MagazineBridge {
     }
 
     // Delete datatable row
-    public void deleteMagazine(Long id) {
+    public void deleteMagazine(Magazine magazine) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(databaseTableName);
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        Magazine todeleteMagazine = entityManager.find(Magazine.class, id);
+        Magazine todeleteMagazine = entityManager.find(Magazine.class, magazine.getId());
         if (todeleteMagazine != null) {
             entityManager.getTransaction().begin();
             entityManager.remove(todeleteMagazine);

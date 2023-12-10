@@ -21,6 +21,7 @@ public class MagazineBean implements Serializable {
 
     private MagazineBridge magazineBridge;
     private List<Magazine> selectedMagazines = new ArrayList<>();
+    private Magazine selectedProduct;
     private List<Magazine> allMagazines;
 
     @PostConstruct
@@ -41,6 +42,14 @@ public class MagazineBean implements Serializable {
     public void setSelectedMagazines(List<Magazine> selectedMagazines) {
         this.selectedMagazines = selectedMagazines;
     }
+    public Magazine getSelectedProduct() {
+        return selectedProduct;
+    }
+
+    public void setSelectedProduct(Magazine selectedProduct) {
+        this.selectedProduct = selectedProduct;
+    }
+
 
     public void addMagazine(){
         Magazine magazine = new Magazine();
@@ -53,6 +62,15 @@ public class MagazineBean implements Serializable {
     public void deleteMagazines(){
         this.magazineBridge.deleteMultipleMagazines(selectedMagazines);
         this.selectedMagazines = null;
+        this.selectedProduct=null;
+        updateAllMagazine();
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Magazine entfernt","Löschen war erfolgreich"));
+        PrimeFaces.current().ajax().update("form:messages", "form:allMagazineList");
+    }
+
+    public void deleteMagazine(Magazine magazine){
+        this.magazineBridge.deleteMagazine(magazine);
+        this.selectedProduct = null;
         updateAllMagazine();
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Magazin entfernt","Löschen war erfolgreich"));
         PrimeFaces.current().ajax().update("form:messages", "form:allMagazineList");

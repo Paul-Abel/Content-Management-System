@@ -24,7 +24,7 @@
                                          actionListener="#{magazineBean.deleteMagazines()}"
                                          styleClass="ui-button-danger" style="width: 180px" update="@this"
                                          disabled="#{!magazineBean.hasSelectedMagazines()}">
-                            <p:confirm header="Confirmation" message="Sicher das Sie diese Magazine löschen wollen?"
+                            <p:confirm header="Bestätigung" message="Sicher das Sie diese Magazine löschen wollen?"
                                        icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
                     </p:toolbarGroup>
@@ -42,7 +42,7 @@
                     <p:ajax event="rowUnselectCheckbox" update=":form:delete-magazine-button"/>
                     <p:ajax event="toggleSelect" update=":form:delete-magazine-button"/>
 
-                    <p:column selectionMode="multiple" exportable="false" align="center"/>
+                    <p:column selectionMode="multiple" exportable="false" style="width: 100px" />
 
                     <p:column headerText="ID">
                         <h:outputText value="#{magazine.id}"/>
@@ -54,6 +54,14 @@
 
                     <p:column headerText="Beschreibung">
                         <h:outputText value="#{magazine.description}"/>
+                    </p:column>
+
+                    <p:column exportable="false" style="width: 100px" >
+                        <p:commandButton class="ui-button-danger rounded-button" icon="pi pi-trash"
+                                         process="@this" actionListener="#{magazineBean.deleteMagazine(magazine)}" style="float: right;">
+                            <p:confirm header="Bestätigung" message="Sicher das Sie diese Magazine löschen wollen?"
+                                       icon="pi pi-exclamation-triangle"/>
+                        </p:commandButton>
                     </p:column>
 
                 </p:dataTable>
