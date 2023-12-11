@@ -15,15 +15,15 @@
                 <p:toolbar>
                     <p:toolbarGroup>
                         <p:commandButton id="add-magazine-button" value="Neu" icon="pi pi-plus"
-                                         actionListener="#{magazineBean.addMagazine()}"
+                                         actionListener="#{magazineListBean.addMagazine()}"
                                          styleClass="ui-button-success" style="margin-right: .5rem; width: 180px"
                                          update="allMagazineList"/>
 
-                        <p:commandButton id="delete-magazine-button" value="#{magazineBean.deleteButtonMessage}"
+                        <p:commandButton id="delete-magazine-button" value="#{magazineListBean.deleteButtonMessage}"
                                          icon="pi pi-trash"
-                                         actionListener="#{magazineBean.deleteMagazines()}"
+                                         actionListener="#{magazineListBean.deleteMagazines()}"
                                          styleClass="ui-button-danger" style="width: 180px" update="@this"
-                                         disabled="#{!magazineBean.hasSelectedMagazines()}">
+                                         disabled="#{!magazineListBean.hasSelectedMagazines()}">
                             <p:confirm header="Bestätigung" message="Sicher das Sie diese Magazine löschen wollen?"
                                        icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
@@ -31,8 +31,8 @@
                 </p:toolbar>
 
 
-                <p:dataTable id="allMagazineList" var="magazine" value="#{magazineBean.allMagazines}"
-                             selection="#{magazineBean.selectedMagazines}"  styleClass="products-table" reflow="true"
+                <p:dataTable id="allMagazineList" var="magazine" value="#{magazineListBean.allMagazines}"
+                             selection="#{magazineListBean.selectedMagazines}" styleClass="products-table" reflow="true"
                              rowKey="#{magazine.id}" paginator="true" rows="10" rowSelectMode="add"
                              paginatorPosition="bottom" rowsPerPageTemplate="5,10,20,{ShowAll|'Alle'}"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -44,7 +44,7 @@
                     <p:ajax event="rowUnselectCheckbox" update=":form:delete-magazine-button"/>
                     <p:ajax event="toggleSelect" update=":form:delete-magazine-button"/>
 
-                    <p:column selectionMode="multiple" exportable="false" style="width: 100px" />
+                    <p:column selectionMode="multiple" exportable="false" style="width: 100px"/>
 
                     <p:column headerText="ID" sortBy="#{magazine.id}" filterBy="#{magazine.id}">
                         <h:outputText value="#{magazine.id}"/>
@@ -54,13 +54,22 @@
                         <h:outputText value="#{magazine.title}"/>
                     </p:column>
 
-                    <p:column headerText="Beschreibung" sortBy="#{magazine.description}" filterBy="#{magazine.description}">
+                    <p:column headerText="Beschreibung" sortBy="#{magazine.description}"
+                              filterBy="#{magazine.description}">
                         <h:outputText value="#{magazine.description}"/>
                     </p:column>
 
-                    <p:column exportable="false" style="width: 100px" >
+                    <p:column exportable="false"  style="width: 30px !important;" >
+                        <p:button class="rounded-button" icon="pi pi-pencil"
+                                  outcome="success" style="float: right;">
+                            <f:param name="magazineId" value="#{magazine.id}"/>
+                        </p:button>
+                    </p:column>
+
+                    <p:column exportable="false" style="width: 30px !important;">
                         <p:commandButton class="ui-button-danger rounded-button" icon="pi pi-trash"
-                                         process="@this" actionListener="#{magazineBean.deleteMagazine(magazine)}" style="float: right;">
+                                         process="@this" actionListener="#{magazineListBean.deleteMagazine(magazine)}"
+                                         style="float: right">
                             <p:confirm header="Bestätigung" message="Sicher das Sie diese Magazine löschen wollen?"
                                        icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
