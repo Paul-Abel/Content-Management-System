@@ -44,15 +44,15 @@
 
                     <p:column selectionMode="multiple" exportable="false" style="width: 100px" />
 
-                    <p:column headerText="ID">
+                    <p:column headerText="ID" sortBy="#{magazine.id}" filterBy="#{magazine.id}">
                         <h:outputText value="#{magazine.id}"/>
                     </p:column>
 
-                    <p:column headerText="Name">
+                    <p:column headerText="Name" sortBy="#{magazine.title}" filterBy="#{magazine.title}">
                         <h:outputText value="#{magazine.title}"/>
                     </p:column>
 
-                    <p:column headerText="Beschreibung">
+                    <p:column headerText="Beschreibung" sortBy="#{magazine.description}" filterBy="#{magazine.description}">
                         <h:outputText value="#{magazine.description}"/>
                     </p:column>
 
