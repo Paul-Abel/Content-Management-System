@@ -48,10 +48,6 @@ public class MagazineListBean implements Serializable {
         this.selectedProduct = selectedProduct;
     }
 
-
-    public String openMagazine(String id){
-        return "magazine.xhtml?faces-redirect=true";
-    }
     public void addMagazine(){
         Magazine magazine = new Magazine();
         magazine.setTitle("Hallo");

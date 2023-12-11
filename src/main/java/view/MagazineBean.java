@@ -22,7 +22,9 @@ public class MagazineBean implements Serializable {
         this.magazineBridge = new MagazineBridge();
         magazine = magazineBridge.getMagazine(id);
     }
-
+    public void save() {
+        magazineBridge.updateMagazine(magazine);
+    }
 
 
 
@@ -35,8 +37,14 @@ public class MagazineBean implements Serializable {
     public String getTitle() {
         return magazine.getTitle();
     }
-    public String getDescribtion() {
+    public void setTitle(String title){
+        magazine.setTitle(title);
+    }
+    public String getDescription() {
         return magazine.getDescription();
+    }
+    public void setDescription(String description){
+        magazine.setDescription(description);
     }
 
 }

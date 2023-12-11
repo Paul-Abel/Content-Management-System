@@ -20,3 +20,12 @@
 .ui-datatable .ui-selection-column .ui-chkbox-all {
     display: unset !important;
 }
+
+.labelColumn {
+    width: 250px !important;
+    white-space: nowrap;
+}
+
+.inputColumn {
+    width: 600px !important;
+}
