@@ -23,6 +23,9 @@
 
                 <h:outputLabel value="Kurze Beschreibeung:" for="description" />
                 <p:inputText id="description" value="#{magazineBean.description}" style="width: 500px"/>
+
+                <h:outputLabel value="Kategorie:" for="category" />
+                <p:inputText id="category" value="#{magazineBean.category}" style="width: 500px"/>
             </p:panelGrid>
 
             <p:commandButton value="Save" actionListener="#{magazineBean.save}" ajax="true"/>

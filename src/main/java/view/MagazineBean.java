@@ -47,4 +47,10 @@ public class MagazineBean implements Serializable {
         magazine.setDescription(description);
     }
 
+    public String getCategory(){
+        return magazine.getCategory();
+    }
+    public void setCategory(String category){
+        magazine.setCategory(category);
+    }
 }

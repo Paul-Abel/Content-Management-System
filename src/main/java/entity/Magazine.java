@@ -1,5 +1,6 @@
 package entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -12,8 +13,12 @@ public class Magazine implements Serializable {
     @GeneratedValue
     private Long id;
 
+    @Column(name = "title")
     private String title;
+    @Column(name = "description")
     private String description;
+    @Column(name = "category")
+    private String category;
 
     public Magazine(){
 
@@ -42,6 +47,14 @@ public class Magazine implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
 
 
 }

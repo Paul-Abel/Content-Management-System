@@ -52,6 +52,7 @@ public class MagazineListBean implements Serializable {
         Magazine magazine = new Magazine();
         magazine.setTitle("Hallo");
         magazine.setDescription("Welt");
+        magazine.setCategory("Fußball");
         this.magazineBridge.createMagazine(magazine);
         updateAllMagazine();
     }
