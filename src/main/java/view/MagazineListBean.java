@@ -59,7 +59,7 @@ public class MagazineListBean implements Serializable {
 
     public void deleteMagazines(){
         this.magazineBridge.deleteMultipleMagazines(selectedMagazines);
-        this.selectedMagazines = null;
+        this.selectedMagazines.clear();
         this.selectedProduct=null;
         updateAllMagazine();
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Magazine entfernt","Löschen war erfolgreich"));

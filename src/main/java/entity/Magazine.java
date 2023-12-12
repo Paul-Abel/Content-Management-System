@@ -1,9 +1,6 @@
 package entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 
@@ -20,8 +17,11 @@ public class Magazine implements Serializable {
     @Column(name = "category")
     private String category;
 
-    public Magazine(){
+    //@ManyToOne
+    //@JoinColumn(name = "publisher_id")
+    //private Publisher publisher;
 
+    public Magazine(){
     }
 
     public Long getId() {
@@ -54,6 +54,8 @@ public class Magazine implements Serializable {
     public void setCategory(String category) {
         this.category = category;
     }
+
+
 
 
 
