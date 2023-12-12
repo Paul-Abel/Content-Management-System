@@ -17,9 +17,9 @@ public class Magazine implements Serializable {
     @Column(name = "category")
     private String category;
 
-    //@ManyToOne
-    //@JoinColumn(name = "publisher_id")
-    //private Publisher publisher;
+    @ManyToOne
+    @JoinColumn(name = "publisher_id")
+    private Publisher publisher;
 
     public Magazine(){
     }
@@ -53,6 +53,14 @@ public class Magazine implements Serializable {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public Publisher getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
     }
 
 

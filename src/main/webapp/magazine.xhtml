@@ -15,7 +15,7 @@
     <ui:define name="content" >
         <h:form id="form">
             <p:panelGrid columns="2" columnClasses="labelColumn, inputColumn">
-                <h:outputLabel value="Label:" for="id" />
+                <h:outputLabel value="Id:" for="id" />
                 <p:inputText id="id" value="#{magazineBean.id}" readonly="true" style="width: 500px" />
 
                 <h:outputLabel value="Titel:" for="title" />
@@ -26,11 +26,15 @@
 
                 <h:outputLabel value="Kategorie:" for="category" />
                 <p:inputText id="category" value="#{magazineBean.category}" style="width: 500px"/>
+
+                <h:outputLabel value="Verlag:" for="publisher"/>
+                <p:selectOneMenu id="publisher" value="#{magazineBean.publisher}" >
+                    <f:selectItem itemLabel="Select an item" itemValue="#{null}" />
+                    <f:selectItems value="#{magazineBean.allPublisher}" var="pub" itemValue="#{pub.id}" itemLabel="#{pub.name}" />
+                </p:selectOneMenu>
             </p:panelGrid>
 
-            <p:commandButton value="Save" actionListener="#{magazineBean.save}" ajax="true"/>
-
-
+            <p:commandButton value="Save" action="#{magazineBean.save()}"/>
 
         </h:form>
     </ui:define>
