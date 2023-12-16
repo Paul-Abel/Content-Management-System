@@ -6,6 +6,8 @@ import bridge.PublisherBridge;
 import entity.Magazine;
 import entity.Publisher;
 
+import java.util.List;
+
 public class Main {
     // Method just to test different Methods
     public static void main(String[] args){
@@ -33,7 +35,9 @@ public class Main {
         publisher.setStreetnumber(15);
         publisher.setZip(76131);
         publisher.setCountry("Deutschland");
-        bridge.createPublisher(publisher);
+        //bridge.createPublisher(publisher);
+
+
 
         //magazine.setPublisher(publisher);
 

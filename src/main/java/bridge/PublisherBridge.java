@@ -68,14 +68,30 @@ public class PublisherBridge {
 
     // Get all datatable rows
     public List<Publisher> getAllPublishers() {
-        List<Publisher> allPublishers;
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(databaseTableName);
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        allPublishers = entityManager.createQuery("SELECT p FROM Publisher p").getResultList();
+        List<Publisher>allPublishers = entityManager.createQuery("SELECT p FROM Publisher p").getResultList();
         entityManager.close();
         entityManagerFactory.close();
         return allPublishers;
     }
+
+    public List<Object[]> getMagazinesWithPublisherNames(Publisher publisher) {
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(databaseTableName);
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        List<Object[]> magazinesAndPublishers = entityManager.createQuery(
+                        "SELECT m.title, p.name FROM Magazine m JOIN m.publisher p WHERE p.id = :publisherId", Object[].class)
+                .setParameter("publisherId", publisher.getId())
+                .getResultList();
+
+        entityManager.close();
+        entityManagerFactory.close();
+        return magazinesAndPublishers;
+    }
+
+
+
 
     //Delete multiplePublisher
     public void deleteMultiplePublishers(List<Publisher> publisherList) {

@@ -48,18 +48,60 @@ public class PublisherListBean implements Serializable {
 
 
     public void deletePublishers() {
-        this.publisherBridge.deleteMultiplePublishers(selectedPublishers);
-        this.selectedPublishers.clear();
+        List<Publisher> toDeletePublisher = new ArrayList<>();
+        FacesContext context = FacesContext.getCurrentInstance();
+
+
+        for(Publisher publisher : selectedPublishers){
+            List<Object[]> MagazinesWithPublisherNames = publisherBridge.getMagazinesWithPublisherNames(publisher);
+            if (MagazinesWithPublisherNames.isEmpty()) {
+                toDeletePublisher.add(publisher);
+            }
+            else{
+                for (Object[] result : MagazinesWithPublisherNames) {
+                    String magazineTitle = (String) result[0];
+                    String publisherName = (String) result[1];
+                    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Löschen fehlgeschlagen",
+                            "Magazine " + magazineTitle + " hat Verlag " + publisherName + " noch als Link!");
+                    context.addMessage(null, message);
+                }
+            }
+        }
+        publisherBridge.deleteMultiplePublishers(toDeletePublisher);
         updateAllPublisher();
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Verlag entfernt", "Löschen war erfolgreich"));
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+                "Löschen erfolgreich",
+                "Es wurden " + toDeletePublisher.size() + " von " + selectedPublishers.size() + " Verlagen gelöscht!");
+        context.addMessage(null, message);
         PrimeFaces.current().ajax().update("form:messages", "form:allPublisherList");
     }
 
+
+
+
     public void deletePublisher(Publisher publisher) {
-        this.publisherBridge.deletePublisher(publisher);
-        updateAllPublisher();
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Verlag entfernt", "Löschen war erfolgreich"));
-        PrimeFaces.current().ajax().update("form:messages", "form:allPublisherList");
+        List<Object[]> MagazinesWithPublisherNames = publisherBridge.getMagazinesWithPublisherNames(publisher);
+        FacesContext context = FacesContext.getCurrentInstance();
+        if (MagazinesWithPublisherNames.isEmpty()) {
+            this.publisherBridge.deletePublisher(publisher);
+            updateAllPublisher();
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Löschen erfolgreich",
+                    "Der Verlag "+publisher.getName()+ " wurde erfolgreich gelöscht.");
+            context.addMessage(null, message);
+            PrimeFaces.current().ajax().update("form:messages", "form:allPublisherList");
+        } else {
+            for (Object[] result : MagazinesWithPublisherNames) {
+                String magazineTitle = (String) result[0];
+                String publisherName = (String) result[1];
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Löschen fehlgeschlagen",
+                        "Magazine " + magazineTitle + " hat Verlag " + publisherName + " noch als Link!");
+                context.addMessage(null, message);
+                PrimeFaces.current().ajax().update("form:messages");
+            }
+        }
     }
 
     public boolean hasSelectedPublishers() {
