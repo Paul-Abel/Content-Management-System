@@ -1,13 +1,12 @@
 package entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Data;
 
 import java.io.Serializable;
 
 @Entity
+@Data      // Generate automatically getter and setter
 public class Publisher implements Serializable {
 
     @Id
@@ -17,24 +16,23 @@ public class Publisher implements Serializable {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "street")
+    private String street;
+
+    @Column(name = "streetnumber")
+    private Integer streetnumber;
+
+    @Column(name = "zip")
+    private Integer zip;
+
+    @Column(name ="country")
+    private String country;
+
+    @Column(name = "deactivated")
+    private boolean deactivated;
 
     public Publisher() {
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
 }

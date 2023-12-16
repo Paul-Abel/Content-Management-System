@@ -7,67 +7,58 @@ import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
+import lombok.Getter;
+import lombok.Setter;
 import org.primefaces.PrimeFaces;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Named
 @ViewScoped
 public class PublisherListBean implements Serializable {
 
     private PublisherBridge publisherBridge;
+    @Setter
+    @Getter
     private List<Publisher> selectedPublishers = new ArrayList<>();
-    private Publisher selectedPublisher;
+    @Getter
     private List<Publisher> allPublishers;
+    @Getter
+    @Setter
+    private Publisher currentPublisher;
 
     @PostConstruct
-    public void init(){
+    public void init() {
         this.publisherBridge = new PublisherBridge();
         this.allPublishers = publisherBridge.getAllPublishers();
+        this.currentPublisher = new Publisher();
     }
 
-    public void updateAllPublisher(){
+    public void updateAllPublisher() {
         this.allPublishers = publisherBridge.getAllPublishers();
     }
-    public List<Publisher> getAllPublishers(){
-        return this.allPublishers;
-    }
-    public List<Publisher> getSelectedPublishers() {
-        return selectedPublishers;
-    }
-    public void setSelectedPublishers(List<Publisher> selectedPublishers) {
-        this.selectedPublishers = selectedPublishers;
-    }
-    public Publisher getSelectedPublisher() {
-        return selectedPublisher;
+
+    public void openNew() {
+        this.currentPublisher = new Publisher();
+        PrimeFaces.current().ajax().update("dialogs");
     }
 
-    public void setSelectedPublisher(Publisher selectedPublisher) {
-        this.selectedPublisher = selectedPublisher;
-    }
 
-    public void addPublisher(){
-        Publisher publisher = new Publisher();
-        publisher.setName("Hallo");
-        this.publisherBridge.createPublisher(publisher);
-        updateAllPublisher();
-    }
-
-    public void deletePublishers(){
+    public void deletePublishers() {
         this.publisherBridge.deleteMultiplePublishers(selectedPublishers);
         this.selectedPublishers.clear();
-        this.selectedPublisher =null;
         updateAllPublisher();
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Verlag entfernt","Löschen war erfolgreich"));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Verlag entfernt", "Löschen war erfolgreich"));
         PrimeFaces.current().ajax().update("form:messages", "form:allPublisherList");
     }
 
-    public void deletePublisher(Publisher publisher){
+    public void deletePublisher(Publisher publisher) {
         this.publisherBridge.deletePublisher(publisher);
-        this.selectedPublisher = null;
         updateAllPublisher();
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Verlag entfernt","Löschen war erfolgreich"));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Verlag entfernt", "Löschen war erfolgreich"));
         PrimeFaces.current().ajax().update("form:messages", "form:allPublisherList");
     }
 
@@ -81,5 +72,18 @@ public class PublisherListBean implements Serializable {
             return size + " ausgewählt";
         }
         return "Löschen";
+    }
+
+    public void save() {
+        if (!Objects.equals(currentPublisher.getCountry(), "Deutschland")) {
+            currentPublisher.setZip(null);
+        }
+        if (currentPublisher.getId() == null) {
+            publisherBridge.createPublisher(this.currentPublisher);
+        } else {
+            publisherBridge.updatePublisher(currentPublisher);
+        }
+        updateAllPublisher();
+        PrimeFaces.current().ajax().update("form:allPublisherList");
     }
 }

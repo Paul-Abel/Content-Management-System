@@ -16,10 +16,10 @@ public class Main {
         magazine.setDescription("Abel");
 
         MagazineBridge a = new MagazineBridge();
+        PublisherBridge bridge = new PublisherBridge();
         //a.getAllMagazines();
 
 
-        a.createMagazine(magazine);
         //a.deleteMagazin(451L);
 
         //Magazine magazine = a.getMagazine(101L);
@@ -28,9 +28,23 @@ public class Main {
 
         Publisher publisher = new Publisher();
         publisher.setName("Springer");
-
-        PublisherBridge bridge = new PublisherBridge();
+        publisher.setDeactivated(true);
+        publisher.setStreet("Allee");
+        publisher.setStreetnumber(15);
+        publisher.setZip(76131);
+        publisher.setCountry("Deutschland");
         bridge.createPublisher(publisher);
+
+        //magazine.setPublisher(publisher);
+
+       // a.createMagazine(magazine);
+
+
+        //bridge.createPublisher(publisher);
+
+        //Magazine b = a.getMagazine(101L);
+        //Publisher c = b.getPublisher();
+        //System.out.println(c.getName());
 
 
 
