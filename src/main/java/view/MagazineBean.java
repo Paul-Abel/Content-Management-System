@@ -32,9 +32,10 @@ public class MagazineBean implements Serializable {
 
     }
 
-    public void save() {
+    public String saveAndNavigate() {
         System.out.println("Save method is being called");
         magazineBridge.updateMagazine(magazine);
+        return "magazineList.xhtml?faces-redirect=true";
     }
 
 

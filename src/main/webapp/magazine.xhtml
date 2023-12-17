@@ -9,32 +9,34 @@
         template="/template.xhtml">
 
     <f:metadata>
-        <f:viewParam name="magazineId" value="#{magazineBean.id}" />
-        <f:event type="preRenderView" listener="#{magazineBean.init}" />
+        <f:viewParam name="magazineId" value="#{magazineBean.id}"/>
+        <f:event type="preRenderView" listener="#{magazineBean.init}"/>
     </f:metadata>
-    <ui:define name="content" >
+    <ui:define name="content">
         <h:form id="form">
-            <p:panelGrid columns="2" columnClasses="labelColumn, inputColumn">
-                <h:outputLabel value="Id:" for="id" />
-                <p:inputText id="id" value="#{magazineBean.id}" readonly="true" style="width: 500px" />
+            <p:outputPanel id="manage-publisher-content" class="ui-fluid"
+                           style="display: flex; justify-content: center;">
+                <p:panelGrid columns="2" columnClasses="labelColumn, inputColumn" >
+                    <h:outputLabel value="Titel:" for="title"/>
+                    <p:inputText id="title" value="#{magazineBean.title}" />
 
-                <h:outputLabel value="Titel:" for="title" />
-                <p:inputText id="title" value="#{magazineBean.title}" style="width: 500px"/>
+                    <h:outputLabel value="Kurze Beschreibeung:" for="description"/>
+                    <p:inputText id="description" value="#{magazineBean.description}"/>
 
-                <h:outputLabel value="Kurze Beschreibeung:" for="description" />
-                <p:inputText id="description" value="#{magazineBean.description}" style="width: 500px"/>
+                    <h:outputLabel value="Kategorie:" for="category"/>
+                    <p:inputText id="category" value="#{magazineBean.category}"/>
 
-                <h:outputLabel value="Kategorie:" for="category" />
-                <p:inputText id="category" value="#{magazineBean.category}" style="width: 500px"/>
+                    <h:outputLabel value="Verlag:" for="publisher"/>
+                    <p:selectOneMenu id="publisher" value="#{magazineBean.publisher}">
+                        <f:selectItem itemLabel="Select an item" itemValue="#{null}"/>
+                        <f:selectItems value="#{magazineBean.allPublisher}" var="pub" itemValue="#{pub.id}"
+                                       itemLabel="#{pub.name}"/>
+                    </p:selectOneMenu>
+                    <p:commandButton value="Speichern" action="#{magazineBean.saveAndNavigate()}" style="width: 200px"/>
+                    <h:panelGroup/>
+                </p:panelGrid>
 
-                <h:outputLabel value="Verlag:" for="publisher"/>
-                <p:selectOneMenu id="publisher" value="#{magazineBean.publisher}" >
-                    <f:selectItem itemLabel="Select an item" itemValue="#{null}" />
-                    <f:selectItems value="#{magazineBean.allPublisher}" var="pub" itemValue="#{pub.id}" itemLabel="#{pub.name}" />
-                </p:selectOneMenu>
-            </p:panelGrid>
-
-            <p:commandButton value="Save" action="#{magazineBean.save()}"/>
+            </p:outputPanel>
 
         </h:form>
     </ui:define>
