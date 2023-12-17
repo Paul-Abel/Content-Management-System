@@ -47,10 +47,6 @@
 
                     <p:column selectionMode="multiple" exportable="false" style="width: 100px"/>
 
-                    <p:column headerText="ID" sortBy="#{publisher.id}" filterBy="#{publisher.id}">
-                        <h:outputText value="#{publisher.id}"/>
-                    </p:column>
-
                     <p:column headerText="Name" sortBy="#{publisher.name}" filterBy="#{publisher.name}">
                         <h:outputText value="#{publisher.name}"/>
                     </p:column>
@@ -116,7 +112,9 @@
 
                         <p:panelGrid id="grid" columns="2" columnClasses="labelColumn, inputColumn">
                             <p:outputLabel for="name" value="Name:"/>
-                            <p:inputText id="name" value="#{publisherListBean.currentPublisher.name}"/>
+                            <p:inputText id="name" value="#{publisherListBean.currentPublisher.name}" required="true"
+                                         requiredMessage="Name ist ein Pflichtfeld."
+                                         validator="#{publisherListBean.nameValidation}"/>
 
 
                             <p:outputLabel for="country" value="Land:"/>
@@ -125,7 +123,8 @@
                                 <f:selectItem itemLabel="Deutschland" itemValue="Deutschland"/>
                                 <f:selectItem itemLabel="Österreich" itemValue="Österreich"/>
                                 <f:selectItem itemLabel="Schweiz" itemValue="Schweiz"/>
-                                <p:ajax process="dialogs:manage-publisher-content" update="dialogs:manage-publisher-content"/>
+                                <p:ajax process="dialogs:manage-publisher-content"
+                                        update="dialogs:manage-publisher-content"/>
                             </p:selectOneMenu>
 
                             <p:outputLabel for="street" value="Straße:"/>
@@ -138,10 +137,10 @@
 
 
                             <p:outputLabel for="zip" value="Postleitzahl:"
-                                               rendered="#{publisherListBean.currentPublisher.country eq 'Deutschland'}"/>
+                                           rendered="#{publisherListBean.currentPublisher.country eq 'Deutschland'}"/>
                             <p:inputNumber id="zip" value="#{publisherListBean.currentPublisher.zip}" minValue="0"
-                                               maxValue="99999" decimalPlaces="0" thousandSeparator=""
-                                               rendered="#{publisherListBean.currentPublisher.country eq 'Deutschland'}"/>
+                                           maxValue="99999" decimalPlaces="0" thousandSeparator=""
+                                           rendered="#{publisherListBean.currentPublisher.country eq 'Deutschland'}"/>
 
 
                             <p:outputLabel for="deactivated" value="Deaktiviert"/>
@@ -152,7 +151,8 @@
 
                     <f:facet name="footer">
                         <p:commandButton value="Save" icon="pi pi-check" actionListener="#{publisherListBean.save()}"
-                                         onclick="PF('managePublisher').hide()" update="form"/>
+                                         oncomplete="if (!args.validationFailed) PF('managePublisher').hide()"
+                                         update="form"/>
                         <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('managePublisher').hide()"
                                          class="ui-button-secondary" type="button"/>
                     </f:facet>

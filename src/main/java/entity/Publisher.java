@@ -11,9 +11,10 @@ public class Publisher implements Serializable {
 
     @Id
     @GeneratedValue
+    @Column(updatable = false)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String name;
 
     @Column(name = "street")
@@ -28,7 +29,7 @@ public class Publisher implements Serializable {
     @Column(name ="country")
     private String country;
 
-    @Column(name = "deactivated")
+    @Column(name = "deactivated",nullable = false)
     private boolean deactivated;
 
     public Publisher() {

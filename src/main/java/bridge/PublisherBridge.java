@@ -4,6 +4,8 @@ import entity.Publisher;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.TypedQuery;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -24,7 +26,7 @@ public class PublisherBridge {
     }
 
     // Delete datatable row
-    public void deletePublisher(Publisher publisher) {
+    public void deletePublisher(@NotNull Publisher publisher) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(databaseTableName);
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         Publisher todeletePublisher = entityManager.find(Publisher.class, publisher.getId());
@@ -38,7 +40,7 @@ public class PublisherBridge {
     }
 
     // Update datatable row
-    public void updatePublisher(Publisher publisher) {
+    public void updatePublisher(@NotNull Publisher publisher) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(databaseTableName);
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         Publisher toUpdatePublisher = entityManager.find(Publisher.class, publisher.getId());
@@ -51,32 +53,17 @@ public class PublisherBridge {
         entityManagerFactory.close();
     }
 
-    // Get datatable row
-    public Publisher getPublisher(Long id) {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(databaseTableName);
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        Publisher publisher = entityManager.find(Publisher.class, id);
-        if (publisher != null) {
-            entityManager.close();
-            entityManagerFactory.close();
-            return publisher;
-        }
-        entityManager.close();
-        entityManagerFactory.close();
-        return null;
-    }
-
     // Get all datatable rows
     public List<Publisher> getAllPublishers() {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(databaseTableName);
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        List<Publisher>allPublishers = entityManager.createQuery("SELECT p FROM Publisher p").getResultList();
+        List<Publisher> allPublishers = entityManager.createQuery("SELECT p FROM Publisher p").getResultList();
         entityManager.close();
         entityManagerFactory.close();
         return allPublishers;
     }
 
-    public List<Object[]> getMagazinesWithPublisherNames(Publisher publisher) {
+    public List<Object[]> getMagazinesWithPublisherNames(@NotNull Publisher publisher) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(databaseTableName);
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
@@ -91,10 +78,8 @@ public class PublisherBridge {
     }
 
 
-
-
     //Delete multiplePublisher
-    public void deleteMultiplePublishers(List<Publisher> publisherList) {
+    public void deleteMultiplePublishers(@NotNull List<Publisher> publisherList) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(databaseTableName);
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
@@ -108,5 +93,21 @@ public class PublisherBridge {
         entityManager.getTransaction().commit();
         entityManager.close();
         entityManagerFactory.close();
+    }
+
+    public boolean isPublisherNameTaken(@NotNull String publisherName) {
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(databaseTableName);
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        // Query to check if a publisher with the given name exists
+        TypedQuery<Long> query = entityManager.createQuery(
+                "SELECT COUNT(p) FROM Publisher p WHERE p.name = :publisherName", Long.class);
+        query.setParameter("publisherName", publisherName);
+        long count = query.getSingleResult();
+
+        entityManager.close();
+        entityManagerFactory.close();
+
+        return count > 0; // True if a publisher with this name exists, false otherwise
     }
 }
