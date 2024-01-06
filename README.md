@@ -1,6 +1,6 @@
 # Content Management System
 
-This is a project work for the university. The goal is to show what is possible with JSF and Primefaces. 
+This is a project work in my second semester for a master in the university of applied science. The goal is to show what is possible with JSF and Primefaces. 
 
 To demonstrate this, I have created a small content management system. This manages various magazines and publishers with different attributes. 
 
