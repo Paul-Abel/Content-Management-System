@@ -125,7 +125,7 @@ public class PublisherListBean implements Serializable {
     }
 
     public void nameValidation (FacesContext context, UIComponent component, Object value) throws ValidatorException {
-        if(publisherBridge.isPublisherNameTaken((String) value)){
+        if(publisherBridge.isPublisherNameTaken((String) value) && currentPublisher.getName()!= value){
             throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "Name vergeben!",
                     "Der Name" + value + " is bereits vergeben."));

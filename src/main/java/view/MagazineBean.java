@@ -7,6 +7,8 @@ import entity.Publisher;
 import jakarta.faces.annotation.ManagedProperty;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,33 +21,37 @@ public class MagazineBean implements Serializable {
     private MagazineBridge magazineBridge;
     private PublisherBridge publisherBridge;
     private Magazine magazine;
+    @Setter
+    @Getter
     private List<Publisher> allPublisher;
+    @Setter
+    @Getter
     private Long id;
 
 
     public void init() {
         magazineBridge = new MagazineBridge();
         publisherBridge = new PublisherBridge();
-        magazine = magazineBridge.getMagazine(id);
+
+        if(id==null){
+            magazine = new Magazine();
+        }
+        else{
+            magazine = magazineBridge.getMagazine(id);
+        }
         allPublisher = publisherBridge.getAllPublishers();
-
-
     }
 
     public String saveAndNavigate() {
-        System.out.println("Save method is being called");
-        magazineBridge.updateMagazine(magazine);
+        if(id==null){
+            magazineBridge.createMagazine(magazine);
+        }
+        else{
+            magazineBridge.updateMagazine(magazine);
+        }
         return "magazineList.xhtml?faces-redirect=true";
     }
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return magazine.getTitle();
@@ -85,14 +91,5 @@ public class MagazineBean implements Serializable {
                 break;
             }
         }
-    }
-
-
-    public List<Publisher> getAllPublisher() {
-        return allPublisher;
-    }
-
-    public void setAllPublisher(List<Publisher> allPublisher) {
-        this.allPublisher = allPublisher;
     }
 }

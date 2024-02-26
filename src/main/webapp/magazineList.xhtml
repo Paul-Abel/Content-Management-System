@@ -14,10 +14,11 @@
 
                 <p:toolbar>
                     <p:toolbarGroup>
-                        <p:commandButton id="add-magazine-button" value="Neu" icon="pi pi-plus"
-                                         actionListener="#{magazineListBean.addMagazine()}"
-                                         styleClass="ui-button-success" style="margin-right: .5rem; width: 180px"
-                                         update="allMagazineList"/>
+                        <p:button id="add-magazine-button" value="Neu" icon="pi pi-plus"
+                                         outcome="success"
+                                         styleClass="ui-button-success" style="margin-right: .5rem; width: 180px">
+                            <f:param name="magazineId" value="#{null}"/>
+                        </p:button>
 
                         <p:commandButton id="delete-magazine-button" value="#{magazineListBean.deleteButtonMessage}"
                                          icon="pi pi-trash"
