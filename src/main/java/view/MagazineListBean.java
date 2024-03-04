@@ -7,6 +7,8 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import bridge.MagazineBridge;
+import lombok.Getter;
+import lombok.Setter;
 import org.primefaces.PrimeFaces;
 
 import java.io.Serializable;
@@ -18,8 +20,13 @@ import java.util.List;
 public class MagazineListBean implements Serializable {
 
     private MagazineBridge magazineBridge;
+    @Setter
+    @Getter
     private List<Magazine> selectedMagazines = new ArrayList<>();
+    @Setter
+    @Getter
     private Magazine selectedProduct;
+    @Getter
     private List<Magazine> allMagazines;
 
     @PostConstruct
@@ -30,22 +37,6 @@ public class MagazineListBean implements Serializable {
 
     public void updateAllMagazine(){
         this.allMagazines = magazineBridge.getAllMagazines();
-    }
-    public List<Magazine> getAllMagazines(){
-        return this.allMagazines;
-    }
-    public List<Magazine> getSelectedMagazines() {
-        return selectedMagazines;
-    }
-    public void setSelectedMagazines(List<Magazine> selectedMagazines) {
-        this.selectedMagazines = selectedMagazines;
-    }
-    public Magazine getSelectedProduct() {
-        return selectedProduct;
-    }
-
-    public void setSelectedProduct(Magazine selectedProduct) {
-        this.selectedProduct = selectedProduct;
     }
 
     public void addMagazine(){

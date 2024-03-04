@@ -6,6 +6,7 @@
     <persistence-unit name="default">
         <class>entity.Magazine</class>
         <class>entity.Publisher</class>
+        <class>entity.Settings</class>
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.hsqldb.jdbcDriver"/>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:hsqldb:file:target/CMT;shutdown=true"/>
