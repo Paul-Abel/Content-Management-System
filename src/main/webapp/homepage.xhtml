@@ -9,15 +9,39 @@
         xmlns:f="http://xmlns.jcp.org/jsf/core"
         xmlns:p="http://primefaces.org/ui"
         template="/template.xhtml">
-    <ui:define name="content" >
-        <h:form>
-            <p:panelGrid columns="2" columnClasses="labelColumn, inputColumn" >
-                <h:outputLabel value="Partial Submit " for="partial"/>
-                <p:selectBooleanCheckbox id="partial" value="#{settingsBean.partial}" />
+    <ui:define name="content">
+        <div class="card">
+            <p:growl id="messages" life="5000" sticky="false" showDetail="true" autoUpdate="true" />
+            <h:form>
+                <p:panelGrid columns="2" columnClasses="labelColumn, inputColumn">
+                    <h:outputLabel value="Anzeigen von Partial Submit Test: " for="partialShow"/>
+                    <p:selectBooleanCheckbox id="partialShow" value="#{settingsBean.partialShow}">
+                        <p:ajax update="form"/>
+                    </p:selectBooleanCheckbox>
 
-                <p:commandButton value="Speichern" action="#{settingsBean.save()}" style="width: 200px"/>
-                <h:panelGroup/>
-            </p:panelGrid>
-        </h:form>
+                    <p:commandButton value="Speichern" action="#{settingsBean.save()}" style="width: 200px"/>
+                    <h:panelGroup/>
+                </p:panelGrid>
+            </h:form>
+
+
+            <h:form id="form">
+                <p:panelGrid columns="2" layout="grid" columnClasses="labelColumn, inputColumn"
+                             rendered="#{settingsBean.partialShow}">
+
+                    <h:outputLabel value="Input 1:" for="input1"/>
+                    <p:inputText id="input1" value="#{settingsBean.input_1}" readonly="true"/>
+
+                    <h:outputLabel value="Input 2:" for="input2"/>
+                    <p:inputText id="input2" value="#{settingsBean.input_2}" readonly="true"/>
+
+                    <p:commandButton value="Partial Submit (Input 1)" action="#{settingsBean.checkSubmitted}" process="@this input1" partialSubmit="true" update="messages" />
+
+                    <!-- Full submit button -->
+                    <p:commandButton value="Full Submit" action="#{settingsBean.checkSubmitted}" partialSubmit="false" update="messages" />
+
+                </p:panelGrid>
+            </h:form>
+        </div>
     </ui:define>
 </ui:composition>
