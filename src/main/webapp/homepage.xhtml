@@ -8,12 +8,20 @@
         xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
         xmlns:f="http://xmlns.jcp.org/jsf/core"
         xmlns:p="http://primefaces.org/ui"
-        template="/template.xhtml">
+        template="/#{settingsBean.selectedMenu}.xhtml">
     <ui:define name="content">
         <div class="card">
             <p:growl id="messages" life="5000" sticky="false" showDetail="true" autoUpdate="true" />
             <h:form>
                 <p:panelGrid columns="2" columnClasses="labelColumn, inputColumn">
+
+                    <p:outputLabel for="menu" value="Art des Menüs:"/>
+                    <p:selectOneMenu id="menu" value="#{settingsBean.selectedMenu}">
+                        <f:selectItem itemLabel="Menubar" itemValue="templateMenubar"/>
+                        <f:selectItem itemLabel="Breadcumb" itemValue="templateBreadcumb"/>
+                        <f:selectItem itemLabel="Tabmenu" itemValue="templateTabMenu"/>
+                    </p:selectOneMenu>
+
                     <h:outputLabel value="Anzeigen von Partial Submit Test: " for="partialShow"/>
                     <p:selectBooleanCheckbox id="partialShow" value="#{settingsBean.partialShow}">
                         <p:ajax update="form"/>
