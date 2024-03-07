@@ -16,11 +16,12 @@ public class Settings implements Serializable {
     @Column
     private String settingValue;
 
-    public Settings(String name, String value){
+    public Settings(String name, String value) {
         this.settingName = name;
         this.settingValue = value;
     }
 
-    public Settings() {}
+    public Settings() {
+    }
 }
 

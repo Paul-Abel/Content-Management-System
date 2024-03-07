@@ -9,10 +9,16 @@
         xmlns:f="http://xmlns.jcp.org/jsf/core"
         xmlns:p="http://primefaces.org/ui"
         template="/#{settingsBean.selectedMenu}.xhtml">
+
+    <!-- Site to do some settings and a showcase of partial submit -->
     <ui:define name="content">
         <div class="card">
-            <p:growl id="messages" life="5000" sticky="false" showDetail="true" autoUpdate="true" />
+
+            <!-- Show messages -->
+            <p:growl id="messages" life="5000" sticky="false" showDetail="true" autoUpdate="true"/>
             <h:form>
+
+                <!-- Contains the settings -->
                 <p:panelGrid columns="2" columnClasses="labelColumn, inputColumn">
 
                     <p:outputLabel for="menu" value="Art des Menüs:"/>
@@ -32,7 +38,6 @@
                 </p:panelGrid>
             </h:form>
 
-
             <h:form id="form">
                 <p:panelGrid columns="2" layout="grid" columnClasses="labelColumn, inputColumn"
                              rendered="#{settingsBean.partialShow}">
@@ -43,10 +48,14 @@
                     <h:outputLabel value="Input 2:" for="input2"/>
                     <p:inputText id="input2" value="#{settingsBean.input_2}" readonly="true"/>
 
-                    <p:commandButton value="Partial Submit (Input 1)" action="#{settingsBean.checkSubmitted}" process="@this input1" partialSubmit="true" update="messages" />
-
-                    <!-- Full submit button -->
-                    <p:commandButton value="Full Submit" action="#{settingsBean.checkSubmitted}" partialSubmit="false" update="messages" />
+                    <p:outputPanel>
+                        <p:commandButton value="Partial Submit (Input 1)" action="#{settingsBean.checkSubmitted}"
+                                         process="@this input1" partialSubmit="true"/>
+                        <!-- Full submit -->
+                        <p:commandButton value="Full Submit" action="#{settingsBean.checkSubmitted}"
+                                         partialSubmit="false"/>
+                    </p:outputPanel>
+                    <h:panelGroup/>
 
                 </p:panelGrid>
             </h:form>
