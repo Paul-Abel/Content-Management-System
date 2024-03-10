@@ -26,10 +26,10 @@ public class Publisher implements Serializable {
     @Column(name = "zip")
     private Integer zip;
 
-    @Column(name ="country")
+    @Column(name = "country")
     private String country;
 
-    @Column(name = "deactivated",nullable = false)
+    @Column(name = "deactivated", nullable = false)
     private boolean deactivated;
 
     public Publisher() {

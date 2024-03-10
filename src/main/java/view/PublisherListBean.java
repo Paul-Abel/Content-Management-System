@@ -44,12 +44,14 @@ public class PublisherListBean implements Serializable {
         this.allPublishers = publisherBridge.getAllPublishers();
     }
 
+    // A new publisher gets created
     public void openNew() {
         this.currentPublisher = new Publisher();
         PrimeFaces.current().ajax().update("dialogs");
     }
 
-    public void deletionFailed(@NotNull List<Object[]> MagazinesWithPublisherNames){
+    //Return Message for every Publisher that has a Magazine linked to
+    public void deletionFailed(@NotNull List<Object[]> MagazinesWithPublisherNames) {
         for (Object[] result : MagazinesWithPublisherNames) {
             String magazineTitle = (String) result[0];
             String publisherName = (String) result[1];
@@ -57,12 +59,15 @@ public class PublisherListBean implements Serializable {
                     "Löschen fehlgeschlagen",
                     "Magazine " + magazineTitle + " hat Verlag " + publisherName + " noch als Link!"));
         }
+
+        // Option for Future: If a Publisher has more than n Magazines, just show a number.
     }
 
-
+    // Delete selcted Publisher
     public void deletePublishers() {
         List<Publisher> toDeletePublisher = new ArrayList<>();
 
+        //Check if Publisher is allowed to delete, else give back error message.
         for (Publisher publisher : selectedPublishers) {
             List<Object[]> MagazinesWithPublisherNames = publisherBridge.getMagazinesWithPublisherNames(publisher);
             if (MagazinesWithPublisherNames.isEmpty()) {
@@ -72,17 +77,21 @@ public class PublisherListBean implements Serializable {
             }
         }
 
-        if(!toDeletePublisher.isEmpty()){
+        // Delete every deletable Publisher
+        if (!toDeletePublisher.isEmpty()) {
             publisherBridge.deleteMultiplePublishers(toDeletePublisher);
             updateAllPublisher();
-            FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO,
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Löschen erfolgreich",
                     "Es wurden " + toDeletePublisher.size() + " von " + selectedPublishers.size() + " Verlagen gelöscht!"));
         }
+
+        // Update list and growl
         PrimeFaces.current().ajax().update("form:messages", "form:allPublisherList");
     }
 
 
+    // Delete a Publisher
     public void deletePublisher(Publisher publisher) {
         List<Object[]> MagazinesWithPublisherNames = publisherBridge.getMagazinesWithPublisherNames(publisher);
         FacesContext context = FacesContext.getCurrentInstance();
@@ -96,13 +105,17 @@ public class PublisherListBean implements Serializable {
         } else {
             deletionFailed(MagazinesWithPublisherNames);
         }
+
+        // Update list and growl
         PrimeFaces.current().ajax().update("form:messages", "form:allPublisherList");
     }
 
+    // Check if an object is selected
     public boolean hasSelectedPublishers() {
         return !this.selectedPublishers.isEmpty();
     }
 
+    // Show a message, how many objects are selected
     public String getDeleteButtonMessage() {
         if (hasSelectedPublishers()) {
             int size = this.selectedPublishers.size();
@@ -111,6 +124,7 @@ public class PublisherListBean implements Serializable {
         return "Löschen";
     }
 
+    // Save methode, create or update publisher.
     public void save() {
         if (!Objects.equals(currentPublisher.getCountry(), "Deutschland")) {
             currentPublisher.setZip(null);
@@ -124,8 +138,10 @@ public class PublisherListBean implements Serializable {
         PrimeFaces.current().ajax().update("form:allPublisherList");
     }
 
-    public void nameValidation (FacesContext context, UIComponent component, Object value) throws ValidatorException {
-        if(publisherBridge.isPublisherNameTaken((String) value) && currentPublisher.getName()!= value){
+
+    // Check if publisher name is allowed.
+    public void nameValidation(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        if (publisherBridge.isPublisherNameTaken((String) value) && !Objects.equals(currentPublisher.getName(), value.toString())) {
             throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "Name vergeben!",
                     "Der Name" + value + " is bereits vergeben."));

@@ -12,6 +12,7 @@
             <h:form id="form">
                 <p:growl id="messages" showDetail="true"/>
 
+                <!-- Add delelte and create in a toolbargroup-->
                 <p:toolbar>
                     <p:toolbarGroup>
                         <p:commandButton id="add-publisher-button" value="Neu" icon="pi pi-plus"
@@ -30,7 +31,7 @@
                     </p:toolbarGroup>
                 </p:toolbar>
 
-
+                <!-- Options to filter, navigate the datatable -->
                 <p:dataTable id="allPublisherList" var="publisher" value="#{publisherListBean.allPublishers}"
                              selection="#{publisherListBean.selectedPublishers}" styleClass="products-table"
                              rowKey="#{publisher.id}" paginator="true" rows="10" rowSelectMode="add"
@@ -39,6 +40,7 @@
                              currentPageReportTemplate="{startRecord}-{endRecord} von {totalRecords} Verlagen"
                              editable="true">
 
+                    <!-- Update delete button if a object is selected -->
                     <p:ajax event="rowSelect" update=":form:delete-publisher-button"/>
                     <p:ajax event="rowUnselect" update=":form:delete-publisher-button"/>
                     <p:ajax event="rowSelectCheckbox" update=":form:delete-publisher-button"/>
@@ -73,6 +75,8 @@
                         <p:selectBooleanCheckbox value="#{publisher.deactivated}" disabled="true"/>
                     </p:column>
 
+
+                    <!-- Inline button for edit -->
                     <p:column exportable="false" style="width: 30px !important;">
                         <p:commandButton icon="pi pi-pencil"
                                          process="@this"
@@ -83,7 +87,7 @@
                         </p:commandButton>
                     </p:column>
 
-
+                    <!-- Inline button for deletion -->
                     <p:column exportable="false" style="width: 30px !important;">
                         <p:commandButton class="ui-button-danger rounded-button" icon="pi pi-trash"
                                          process="@this"
@@ -93,8 +97,6 @@
                                        icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
                     </p:column>
-
-
                 </p:dataTable>
                 <p:confirmDialog global="true" showEffect="fade" width="300">
                     <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
@@ -105,6 +107,7 @@
 
             </h:form>
 
+            <!-- Pop up Panel to create or edit Publisher -->
             <h:form id="dialogs">
                 <p:dialog header=" Verlag Details" showEffect="fade" modal="true" widgetVar="managePublisher"
                           responsive="true">

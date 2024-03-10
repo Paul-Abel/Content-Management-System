@@ -11,7 +11,6 @@ import java.util.List;
 
 // Method for datatable Access for the Publisher
 public class PublisherBridge {
-
     String databaseTableName = "default";
 
     // Create datatable row
@@ -67,10 +66,7 @@ public class PublisherBridge {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(databaseTableName);
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-        List<Object[]> magazinesAndPublishers = entityManager.createQuery(
-                        "SELECT m.title, p.name FROM Magazine m JOIN m.publisher p WHERE p.id = :publisherId", Object[].class)
-                .setParameter("publisherId", publisher.getId())
-                .getResultList();
+        List<Object[]> magazinesAndPublishers = entityManager.createQuery("SELECT m.title, p.name FROM Magazine m JOIN m.publisher p WHERE p.id = :publisherId", Object[].class).setParameter("publisherId", publisher.getId()).getResultList();
 
         entityManager.close();
         entityManagerFactory.close();
@@ -95,13 +91,13 @@ public class PublisherBridge {
         entityManagerFactory.close();
     }
 
+    //Check if name is already taken
     public boolean isPublisherNameTaken(@NotNull String publisherName) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(databaseTableName);
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
         // Query to check if a publisher with the given name exists
-        TypedQuery<Long> query = entityManager.createQuery(
-                "SELECT COUNT(p) FROM Publisher p WHERE p.name = :publisherName", Long.class);
+        TypedQuery<Long> query = entityManager.createQuery("SELECT COUNT(p) FROM Publisher p WHERE p.name = :publisherName", Long.class);
         query.setParameter("publisherName", publisherName);
         long count = query.getSingleResult();
 
