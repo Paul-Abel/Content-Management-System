@@ -35,19 +35,12 @@ public class MagazineListBean implements Serializable {
         this.allMagazines = magazineBridge.getAllMagazines();
     }
 
+    // Update Magazines
     public void updateAllMagazine(){
         this.allMagazines = magazineBridge.getAllMagazines();
     }
 
-    public void addMagazine(){
-        Magazine magazine = new Magazine();
-        magazine.setTitle("Hallo");
-        magazine.setDescription("Welt");
-        magazine.setCategory("Fußball");
-        this.magazineBridge.createMagazine(magazine);
-        updateAllMagazine();
-    }
-
+    // Delete multiple magazines
     public void deleteMagazines(){
         this.magazineBridge.deleteMultipleMagazines(selectedMagazines);
         this.selectedMagazines.clear();
@@ -57,6 +50,7 @@ public class MagazineListBean implements Serializable {
         PrimeFaces.current().ajax().update("form:messages", "form:allMagazineList");
     }
 
+    // Delete single magazine
     public void deleteMagazine(Magazine magazine){
         this.magazineBridge.deleteMagazine(magazine);
         this.selectedProduct = null;
@@ -65,10 +59,13 @@ public class MagazineListBean implements Serializable {
         PrimeFaces.current().ajax().update("form:messages", "form:allMagazineList");
     }
 
+    // Check if a magazine is selected
     public boolean hasSelectedMagazines() {
         return !this.selectedMagazines.isEmpty();
     }
 
+
+    // Update the message from deletion button.
     public String getDeleteButtonMessage() {
         if (hasSelectedMagazines()) {
             int size = this.selectedMagazines.size();

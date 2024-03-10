@@ -30,29 +30,29 @@ public class MagazineBean implements Serializable {
 
 
     public void init() {
+        // Add magazine and publisher
         magazineBridge = new MagazineBridge();
         publisherBridge = new PublisherBridge();
 
-        if(id==null){
+        if (id == null) {
             magazine = new Magazine();
-        }
-        else{
+        } else {
             magazine = magazineBridge.getMagazine(id);
         }
         allPublisher = publisherBridge.getAllPublishers();
     }
 
+    // Navigate to Magazine
     public String saveAndNavigate() {
-        if(id==null){
+        if (id == null) {
             magazineBridge.createMagazine(magazine);
-        }
-        else{
+        } else {
             magazineBridge.updateMagazine(magazine);
         }
         return "magazineList.xhtml?faces-redirect=true";
     }
 
-
+    // Add getter and setter but dont crate an extra variable
     public String getTitle() {
         return magazine.getTitle();
     }
@@ -79,14 +79,15 @@ public class MagazineBean implements Serializable {
 
     // Workaround with Long instead of Publisher, for some reason the save method dont work with Publisher
     public Long getPublisher() {
-        if(magazine.getPublisher()==null){
+        if (magazine.getPublisher() == null) {
             return null;
         }
         return magazine.getPublisher().getId();
     }
+
     public void setPublisher(Long id) {
-        for(Publisher p : allPublisher){
-            if(p.getId().longValue() == id.longValue()){
+        for (Publisher p : allPublisher) {
+            if (p.getId().longValue() == id.longValue()) {
                 magazine.setPublisher(p);
                 break;
             }

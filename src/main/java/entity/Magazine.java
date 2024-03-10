@@ -20,6 +20,7 @@ public class Magazine implements Serializable {
     @Column(name = "category")
     private String category;
 
+    // Key
     @ManyToOne
     @JoinColumn(name = "publisher_id")
     private Publisher publisher;
